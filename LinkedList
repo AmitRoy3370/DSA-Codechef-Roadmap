@@ -1,0 +1,421 @@
+public class SingleLinkedList {
+	
+	public static void main(String [] amit) {
+		
+		LinkedList<Integer> list = new LinkedList<>();
+		
+		for(int i = 1; i <= 5; ++i) {
+			
+			list.add(i);
+			
+		}
+		
+		list.print();
+		
+		list.add(6);
+		
+		list.print();
+		
+		list.push(0);
+		
+		list.print();
+		
+		list.add(5, 5);
+		
+		list.print();
+		
+		for(int i = 7; i <= 10; ++i) {
+			
+			list.add(i);
+			
+		}
+		
+		list.print();
+		
+		list.set(11, list.size() - 1);
+		
+		list.print();
+		
+		list.set(10, list.size() - 1);
+		
+		list.print();
+		
+		System.out.println(list.get(4));
+		
+		list.print();
+		
+		list.add(11);
+		
+		list.print();
+		
+		System.out.println(list.top());
+		
+		list.print();
+		
+		System.out.println(list.indexOf(5));
+		
+		list.print();
+		
+		list.add(12);
+		
+		list.print();
+		
+		System.out.println(list.pop());
+		
+		list.print();
+		
+		System.out.println(list.remove(4));
+		
+		list.print();
+		
+		list.add(13);
+		list.add(14);
+		
+		list.print();
+		
+	}
+	
+	static class Node<T> {
+		
+		T value;
+		Node<T> next;
+		
+		public Node() {
+			
+			this.next = null;
+			
+		}
+		
+		public Node(T value) {
+			
+			this.value = value;
+			this.next = null;
+			
+		}
+		
+	}
+	
+	static class LinkedList<T> {
+		
+		Node<T> head, tail;
+		int len = 0;
+		
+		public LinkedList() {
+			
+			this.head = null;
+			this.tail = null;
+			
+		}
+		
+		public void add_O_N(T value) {
+			
+			Node<T> newNode = new Node<>(value);
+			
+			if(isEmpty()) {
+				
+				head = newNode;
+				++len;
+				return;
+				
+			}
+			
+			Node<T> temp = head;
+			
+			while(temp.next != null) {
+				
+				temp = temp.next;
+				
+			}
+			
+			temp.next = newNode;
+			
+			++len;
+			
+		}
+		
+		public void push(T value) {
+			
+			Node<T> newNode = new Node<>(value);
+			
+			if(isEmpty()) {
+				
+				this.head = newNode;
+				this.tail = newNode;
+				++len;
+				return;
+				
+			}
+			
+			newNode.next = this.head;
+			this.head = newNode;
+			++len;
+			
+		}
+		
+		public void add(T value) {
+			
+			Node<T> newNode = new Node<>(value);
+			
+			if(isEmpty()) {
+				
+				head = newNode;
+				tail = newNode;
+				++len;
+				return;
+				
+			}
+			
+			tail.next = newNode;
+			tail = newNode;
+			++len;
+			
+		}
+		
+		public void add(T value, int index) {
+			
+			if(index < 0 || index >= size()) {
+				
+				throw new ArrayIndexOutOfBoundsException();
+				
+			}
+			
+			Node<T> newNode = new Node<>(value);
+			
+			if(index == 0) {
+				
+				push(value);
+				return;
+				
+			}
+			
+			Node<T> temp = this.head;
+			
+			Node<T> node = new Node<>();
+			
+			int i = 0;
+			
+			while(temp != null) {
+				
+				if(i == index) {
+					
+					node.next = newNode;
+					newNode.next = temp;
+					temp = newNode;
+					
+				}
+				
+				++i;
+				node = temp;
+				temp = temp.next;
+				
+			}
+			
+			++len;
+			
+		}
+		
+		void set(T value, int index) {
+			
+			if(index < 0 || index >= size()) {
+				
+				throw new ArrayIndexOutOfBoundsException();
+				
+			}
+			
+			int i = 0;
+			
+			Node<T> temp = this.head;
+			
+			while(temp != null) {
+				
+				if(i == index) {
+					
+					temp.value = value;
+					
+				}
+								
+				++i;
+				temp = temp.next;
+				
+			}
+			
+		}
+		
+		T top() {
+			
+			if(isEmpty()) {
+				
+				throw new ArrayIndexOutOfBoundsException();
+				
+			}
+			
+			return this.head.value;
+			
+		}
+		
+		T get(int index) {
+			
+			if(index < 0 || index >= size()) {
+				
+				throw new ArrayIndexOutOfBoundsException();
+				
+			}
+			
+			if(index == 0) {
+				
+				return top();
+				
+			}
+			
+			Node<T> temp = this.head;
+			Node<T> node = new Node<>();
+			int i = 0;
+			
+			T returnedValue = null;
+			
+			while(temp != null) {
+				
+				if(i == index) {
+					
+					returnedValue = temp.value;
+					temp = node.next;
+					//--len;
+					
+				}
+				
+				++i;
+				node = temp;
+				temp = temp.next;
+				
+			}
+			
+			return returnedValue;
+			
+		}
+		
+		int indexOf(T value) {
+			
+			if(isEmpty()) {
+				
+				throw new ArrayIndexOutOfBoundsException();
+				
+			}
+			
+			int i = 0;
+			
+			Node<T> temp = this.head;
+			
+			Node<T> node = new Node<>();
+			
+			while(temp != null) {
+				
+				if(temp.value == value) {
+					
+					temp = node.next;
+					
+					break;
+					
+				}
+				
+				++i;
+				node = temp;
+				temp = temp.next;
+				
+			}
+			
+			return i;
+			
+		}
+		
+		void print() {
+			
+			Node<T> temp = head;
+			
+			while(temp != null) {
+				
+				System.out.print(temp.value + " ");
+				
+				temp = temp.next;
+				
+			}
+			
+			System.out.println();
+			
+		}
+		
+		public T pop() {
+			
+			if(isEmpty()) {
+				
+				throw new ArrayIndexOutOfBoundsException();
+				
+			}
+			
+			T value = null;
+			
+			value = this.head.value;
+			
+			this.head = this.head.next;
+			
+			this.len--;
+			
+			return value;
+			
+		}
+		
+		public T remove(int index) {
+			
+			if(index < 0 || index >= size()) {
+				
+				throw new ArrayIndexOutOfBoundsException();
+				
+			}
+			
+			if(index == 0) {
+				
+				return pop();
+				
+			}
+			
+			int i = 0;
+			
+			T value = null;
+			
+			Node<T> temp = this.head;
+			Node<T> node = new Node<>();
+			
+			while(temp != null) {
+				
+				if(i == index) {
+					
+					value = temp.value;
+					node.next = temp.next;
+					temp = node;
+					--len;
+				}
+				
+				++i;
+				node = temp;
+				temp = temp.next;
+				
+			}
+			
+			return value;
+			
+		}
+		
+		int size() {
+			
+			return this.len;
+			
+		}
+		
+		boolean isEmpty() {
+			
+			return size() == 0;
+			
+		}
+		
+	}
+	
+}
